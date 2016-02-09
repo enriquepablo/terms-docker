@@ -1,0 +1,23 @@
+
+
+termsserver:
+  image: enriquepablo/terms-server:0.1
+  hostname: termsserver
+  links:
+    - postgresql
+  ports:
+    - "1967:1967"
+  volumes:
+    - logs:/opt/terms-project/var/log
+
+postgresql:
+  image: postgres:9.5
+  environment:
+    - POSTGRES_USER=terms
+    - POSTGRES_PASSWORD=terms
+    - PGDATA=/var/lib/postgresql/data/pgdata
+  volumes:
+    - data:/var/lib/postgresql/data/pgdata
+    - logs:/var/log/postgresql
+  expose:
+    - "5432"
