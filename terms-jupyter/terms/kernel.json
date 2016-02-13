@@ -1,0 +1,1 @@
+{"display_name": "Terms", "language": "Terms", "argv": ["python3", "-m", "terms_kernel", "-f", "{connection_file}"]}
