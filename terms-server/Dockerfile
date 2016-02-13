@@ -4,6 +4,10 @@ MAINTAINER Enrique Perez Arnaud <enrique@cazalla.net>
 
 RUN apt-get update && apt-get install -y locales \
                                          python3 \
+                                         python3-numpy \
+                                         python3-scipy \
+                                         python3-numexpr \
+                                         python3-matplotlib \
                                          git \
                                          build-essential \
                                          postgresql-server-dev-9.4 \
