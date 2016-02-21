@@ -1,7 +1,7 @@
 
 
 termsserver:
-  image: enriquepablo/terms-server:0.1
+  image: enriquepablo/terms-server:0.3
   hostname: termsserver
   links:
     - postgresql

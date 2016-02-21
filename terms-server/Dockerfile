@@ -4,6 +4,8 @@ MAINTAINER Enrique Perez Arnaud <enrique@cazalla.net>
 
 RUN apt-get update && apt-get install -y locales \
                                          python3 \
+                                         python3-dev \
+                                         python3-setuptools \
                                          python3-numpy \
                                          python3-scipy \
                                          python3-numexpr \
@@ -28,7 +30,6 @@ RUN cd /opt \
 
 ADD etc/config.cfg /opt/terms-project/config.cfg
 
-RUN apt-get install -y python3-setuptools
 
 RUN cd /opt/terms-project \
     && easy_install-3.4 -U setuptools \
@@ -43,7 +44,5 @@ WORKDIR /opt/terms-project
 EXPOSE 1967
 
 VOLUME ["/opt/terms-project/var/log"]
-
-RUN apt-get install -y python3-dev
 
 CMD /scripts/start.sh

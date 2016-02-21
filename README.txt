@@ -10,7 +10,7 @@ terms-basic
 The easiest way to have a taste of
 Terms, just run the container (in the foreground) with::
 
-  $ docker run -i -t enriquepablo/terms-basic:0.1 terms
+  $ docker run -i -t enriquepablo/terms-basic:0.2 terms
 
 And you will be presented with a Terms command line interface.
 

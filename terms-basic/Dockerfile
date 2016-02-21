@@ -3,8 +3,8 @@ FROM debian:jessie
 MAINTAINER Enrique Perez Arnaud <enrique@cazalla.net>
 
 RUN apt-get update && apt-get install -y locales \
-                                         inotify-tools \
-                                         python3
+                                         python3 \
+                                         inotify-tools
 
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
