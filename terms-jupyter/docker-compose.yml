@@ -1,45 +1,42 @@
 version: '2'
 
-network:
-  ipam:
-    driver: default
-    config:
-      subnet: 172.17.0.0/24
-      gateway: 172.17.0.1
-      aux_addresses:
-        postgresql: 172.17.0.2
-        termsserver: 172.17.0.3
-        notebook: 172.17.0.4
+volumes:
+  logs_pg: {}
+  data_pg: {}
+  logs_ts: {}
 
-notebook:
-  image: enriquepablo/terms-notebook:0.1
-  hostname: notebook
-  links:
-    - termsserver
-  environment:
-    - KB_HOST=172.17.0.3
-    - KB_PORT=1967
-  ports:
-      - "8888:8888"
+services:
+  notebook:
+    image: enriquepablo/terms-notebook:0.2
+    hostname: notebook
+    links:
+      - termsserver
+    environment:
+      - KB_HOST=termsserver
+      - KB_PORT=1967
 
-termsserver:
-  image: enriquepablo/terms-server:0.3
-  hostname: termsserver
-  links:
-    - postgresql
-  expose:
-    - "1967"
-  volumes:
-    - logs:/opt/terms-project/var/log
+    ports:
+        - "8888:8888"
 
-postgresql:
-  image: postgres:9.5
-  environment:
-    - POSTGRES_USER=terms
-    - POSTGRES_PASSWORD=terms
-    - PGDATA=/var/lib/postgresql/data/pgdata
-  expose:
-    - "5432"
-  volumes:
-    - data:/var/lib/postgresql/data/pgdata
-    - logs:/var/log/postgresql
+  termsserver:
+    image: enriquepablo/terms-server:0.3
+    hostname: termsserver
+    links:
+      - postgresql
+    expose:
+      - "1967"
+    volumes:
+      - logs_ts:/opt/terms-project/var/log
+
+  postgresql:
+    image: postgres:9.5
+    hostname: postgresql
+    environment:
+      - POSTGRES_USER=terms
+      - POSTGRES_PASSWORD=terms
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    expose:
+      - "5432"
+    volumes:
+      - data_pg:/var/lib/postgresql/data/pgdata
+      - logs_pg:/var/log/postgresql

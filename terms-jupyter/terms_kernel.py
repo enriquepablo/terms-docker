@@ -1,6 +1,11 @@
 import os
+import re
+import sys
+import socket
 from ipykernel.kernelbase import Kernel
 from multiprocessing.connection import Client
+
+IP_PAT = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
 
 
 class TermsKernel(Kernel):
@@ -13,7 +18,15 @@ class TermsKernel(Kernel):
     
     def __init__(self, *args, **kwargs):
         super(TermsKernel, self).__init__(*args, **kwargs)
-        self.host = os.environ['KB_HOST']
+        kb_host = os.environ['KB_HOST']
+        if IP_PAT.match(kb_host):
+            self.host  = kb_host
+        else:
+            try:
+                address = socket.gethostbyname_ex(kb_host)
+            except socket.gaierror:
+                sys.exit('Cannot resolve hostname ' + kb_host)
+            self.host = address[2][0]
         self.port = int(os.environ['KB_PORT'])
 
     def do_execute(self, code, silent, store_history=True, user_expressions=None,

@@ -28,9 +28,9 @@ VOLUME /root
 
 WORKDIR /root
 
-ADD terms /root/terms
-
 ADD terms_kernel.py /root/
+
+ADD terms /root/terms
 
 RUN jupyter kernelspec install /root/terms
 
