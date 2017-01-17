@@ -33,7 +33,8 @@ RUN cd /opt/tserve-buildout \
     && python bootstrap.py
 
 ADD scripts /scripts
-RUN chmod +x /scripts/start.sh
+ADD ../../wait-for-it.sh /scripts/wait-for-it.sh
+RUN chmod +x /scripts/try.sh /scripts/wait-for-it.sh /scripts/start.sh
 
 RUN touch /firstrun
 
@@ -43,4 +44,4 @@ EXPOSE 8080
 
 VOLUME ["/opt/tserve-buildout/var/log"]
 
-CMD /scripts/start.sh
+CMD /scripts/try.sh

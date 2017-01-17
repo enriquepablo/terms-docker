@@ -1,7 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Stop on error
 set -e
+
+./checkterms.sh
 
 if [[ -e /firstrun ]]; then
 

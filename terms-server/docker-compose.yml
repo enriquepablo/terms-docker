@@ -1,24 +1,48 @@
 
 version: '2'
+
+networks:
+  terms:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.20.0/24
+        gateway: 172.16.20.1
+
 services:
 
   postgresql:
     build: dockerfiles/postgresql/
     image: enriquepablo/postgresql:0.1
     hostname: postgresql
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
     volumes:
       - ./data:/var/lib/postgresql/data/pgdata
       - ./log/postgresql:/var/log/postgresql
+    networks:
+      terms:
+        ipv4_address: 172.16.20.100
 
   terms:
     build: dockerfiles/terms/
     image: enriquepablo/terms:0.1
     hostname: terms
+    ports:
+      - "1967:1967"
+    expose:
+      - 1967
     links:
       - postgresql
     volumes:
       - ./log/terms:/opt/terms-project/var/log
       - ./etc/terms:/opt/terms-project/etc
+    networks:
+      terms:
+        ipv4_address: 172.16.20.101
     depends_on:
       - postgresql
 
@@ -32,6 +56,9 @@ services:
     volumes:
       - ./log/webserver:/opt/tserve-buildout/var/log
       - ./etc/webserver:/opt/tserve-buildout/etc
+    networks:
+      terms:
+        ipv4_address: 172.16.20.102
     depends_on:
       - postgresql
       - terms
@@ -44,11 +71,14 @@ services:
     volumes:
       - ./etc/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./log/nginx:/var/log/nginx
+    networks:
+      terms:
+        ipv4_address: 172.16.20.103
     ports:
       - "80:80"
     environment:
       - NGINX_HOST=eperez-ws.emergya.com
       - NGINX_PORT=80
-    command: /bin/bash -c "nginx -g 'daemon off;'"
+    command: ["./wait-for-it.sh", "db:5432", "--", "nginx -g 'daemon off;'"]
     depends_on:
       - webserver
