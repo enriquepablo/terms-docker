@@ -3,6 +3,7 @@ version: '2'
 services:
 
   postgresql:
+    build: dockerfiles/postgresql/
     image: enriquepablo/postgresql:0.1
     hostname: postgresql
     volumes:
@@ -10,6 +11,7 @@ services:
       - ./log/postgresql:/var/log/postgresql
 
   terms:
+    build: dockerfiles/terms/
     image: enriquepablo/terms:0.1
     hostname: terms
     links:
@@ -21,6 +23,7 @@ services:
       - postgresql
 
   webserver:
+    build: dockerfiles/terms.server/
     image: enriquepablo/terms-webserver:0.1
     hostname: webserver
     links:
