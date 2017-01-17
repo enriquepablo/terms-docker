@@ -1,23 +1,51 @@
 
+version: '2'
+services:
 
-termsserver:
-  image: enriquepablo/terms-server:0.3
-  hostname: termsserver
-  links:
-    - postgresql
-  ports:
-    - "1967:1967"
-  volumes:
-    - logs:/opt/terms-project/var/log
+  postgresql:
+    image: enriquepablo/postgresql:0.1
+    hostname: postgresql
+    volumes:
+      - ./data:/var/lib/postgresql/data/pgdata
+      - ./logs:/var/log/postgresql
 
-postgresql:
-  image: postgres:9.5
-  environment:
-    - POSTGRES_USER=terms
-    - POSTGRES_PASSWORD=terms
-    - PGDATA=/var/lib/postgresql/data/pgdata
-  volumes:
-    - data:/var/lib/postgresql/data/pgdata
-    - logs:/var/log/postgresql
-  expose:
-    - "5432"
+  terms:
+    image: enriquepablo/terms:0.1
+    hostname: terms
+    links:
+      - postgresql
+    volumes:
+      - ./log/terms:/opt/terms-project/var/log
+      - ./etc/terms:/opt/terms-project/etc
+    depends_on:
+      - postgresql
+
+  webserver:
+    image: enriquepablo/terms-webserver:0.1
+    hostname: webserver
+    links:
+      - postgresql
+      - terms
+    volumes:
+      - ./log/webserver:/opt/tserve-buildout/var/log
+      - ./etc/webserver:/opt/tserve-buildout/etc
+    depends_on:
+      - postgresql
+      - terms
+
+  nginx:
+    image: nginx
+    hostname: eperez-ws.emergya.com
+    links:
+      - webserver
+    volumes:
+      - ./etc/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./log/nginx:/var/log/nginx
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=eperez-ws.emergya.com
+      - NGINX_PORT=80
+    command: /bin/bash -c "nginx -g 'daemon off;'"
+    depends_on:
+      - webserver

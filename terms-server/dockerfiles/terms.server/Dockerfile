@@ -3,13 +3,9 @@ FROM debian:jessie
 MAINTAINER Enrique Perez Arnaud <enrique@cazalla.net>
 
 RUN apt-get update && apt-get install -y locales \
-                                         python3 \
-                                         python3-dev \
-                                         python3-pip \
-                                         python3-numpy \
-                                         python3-scipy \
-                                         python3-numexpr \
-                                         python3-matplotlib \
+                                         python \
+                                         python-dev \
+                                         python-pip \
                                          git \
                                          build-essential \
                                          postgresql-server-dev-9.4 \
@@ -21,28 +17,30 @@ RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales && \
     locale-gen && \
     /usr/sbin/update-locale LANG=en_US.UTF-8
 
-ENV LANGUAGE en_US.UTF-8
 ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 RUN cd /opt \
-    && git clone https://github.com/enriquepablo/terms-project.git
+    && git clone https://github.com/enriquepablo/tserve-buildout.git
 
-ADD etc/config.cfg /opt/terms-project/config.cfg
+RUN rm -f /opt/tserve-buildout/config.cfg
+ADD etc/config.cfg /opt/tserve-buildout/config.cfg
 
 
-RUN cd /opt/terms-project \
-    && pip3 install --upgrade setuptools \
-    && python3 bootstrap.py
+RUN cd /opt/tserve-buildout \
+    && pip install --upgrade setuptools \
+    && python bootstrap.py
 
 ADD scripts /scripts
 RUN chmod +x /scripts/start.sh
+
 RUN touch /firstrun
 
-WORKDIR /opt/terms-project
+WORKDIR /opt/tserve-buildout
 
-EXPOSE 1967
+EXPOSE 8080
 
-VOLUME ["/opt/terms-project/var/log", "/opt/terms-project/etc"]
+VOLUME ["/opt/tserve-buildout/var/log"]
 
 CMD /scripts/start.sh
