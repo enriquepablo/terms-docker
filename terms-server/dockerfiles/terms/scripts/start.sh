@@ -3,6 +3,15 @@
 # Stop on error
 set -e
 
+export PGPASSWORD="terms"
+
+until psql -h "postgresql" -U "terms" -c '\l'; do
+  >&2 echo "Postgres is unavailable - sleeping"
+  sleep 1
+done
+
+>&2 echo "Postgres is up - executing command"
+
 if [[ -e /firstrun ]]; then
 
   echo "Running zc.buildout..."
