@@ -27,7 +27,7 @@ To run it, clone this repository and run docker-compose::
 
 The container will have a terms daemon listening on port 1967. For details on
 how to communicate with the daemon, see the `Terms docs <http://terms.readthedocs.org/en/latest/protocol.html>`_.
-The pg data should be exposed in `data`, the pg logs in `logs`.
+The pg data should be exposed in `data`, the pg logs in `log`.
 To change the configuration for the terms server, you can edit `etc/terms.cfg`
 and then rebuild the image.
 
