@@ -33,7 +33,6 @@ RUN cd /opt/tserve-buildout \
     && python bootstrap.py
 
 ADD scripts /scripts
-ADD ../../wait-for-it.sh /scripts/wait-for-it.sh
 RUN chmod +x /scripts/try.sh /scripts/wait-for-it.sh /scripts/start.sh
 
 RUN touch /firstrun

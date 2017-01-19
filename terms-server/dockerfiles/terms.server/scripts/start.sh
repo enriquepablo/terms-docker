@@ -3,8 +3,6 @@
 # Stop on error
 set -e
 
-./checkterms.sh
-
 if [[ -e /firstrun ]]; then
 
   echo "Running zc.buildout..."
