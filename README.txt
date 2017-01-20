@@ -31,6 +31,7 @@ The pg data should be exposed in `data`, the pg logs in `log`.
 To change the configuration for the terms server, you can edit `etc/terms.cfg`
 and then rebuild the image.
 
+
 terms-notebook
 --------------
 
