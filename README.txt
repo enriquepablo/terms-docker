@@ -15,3 +15,10 @@ how to communicate with the daemon, see the `Terms docs <http://terms.readthedoc
 The postgresql data should be exposed in `data`, the logs in `log` in the root directory.
 To change the configuration for the different containers, you can edit the files under `etc/`
 and then restart the environment.
+
+Troubleshooting
+---------------
+
+If the `start.sh` script fails to start with `ERROR: failed to allocate gateway` or
+`ERROR: Pool overlaps with other one on this address space`, change the network of all IPs in
+`docker-compose.yml` and `start.sh` from `172.19.67.0/24` to some `172.NN.NN.0/24` and try again.
