@@ -27,4 +27,4 @@ fi
 # Start Terms
 echo "Starting Terms Server..."
 cd /opt/terms-project
-bin/kbdaemon start 2>&1
+/opt/terms-project/bin/kbdaemon start 2>&1
