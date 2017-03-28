@@ -30,7 +30,7 @@ ADD etc/config.cfg /opt/tserve-buildout/config.cfg
 
 RUN cd /opt/tserve-buildout \
     && pip install --upgrade "setuptools==34.3.3" \
-    && python bootstrap.py
+    && python bootstrap.py --version=2.9.2
 
 ADD scripts /scripts
 RUN chmod +x /scripts/try.sh /scripts/wait-for-it.sh /scripts/start.sh
