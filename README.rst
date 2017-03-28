@@ -10,6 +10,12 @@ To create an environment to run Terms in docker containers, clone this repositor
 
 Now you should be able to access a terms server at http://terms.server/, and log in as admin:admin.
 
+You also should have a script `cli.sh` with which you can access a command line
+interface::
+
+  $ ./cli.sh
+  >>
+
 There will be a container with a terms daemon listening on port 172.19.67.101:1967. For details on
 how to communicate with the daemon, see the `Terms docs <http://terms.readthedocs.org/en/latest/protocol.html>`_.
 The postgresql data should be exposed in `data`, the logs in `log` in the root directory.
