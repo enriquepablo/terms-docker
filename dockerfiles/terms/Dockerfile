@@ -32,7 +32,7 @@ ADD etc/config.cfg /opt/terms-project/config.cfg
 
 
 RUN cd /opt/terms-project \
-    && pip3 install --upgrade setuptools \
+    && pip3 install --upgrade "setuptools==34.3.3" \
     && python3 bootstrap.py
 
 ADD scripts /scripts
