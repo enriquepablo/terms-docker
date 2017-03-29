@@ -25,5 +25,5 @@ done
 
 export COMPOSE_HTTP_TIMEOUT=180
 
-docker-compose rm -f --all
+# docker-compose rm -f --all
 docker-compose up $*
